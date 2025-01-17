@@ -1,0 +1,715 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Income API",
+    "version": "1.0"
+  },
+  "paths": {
+    "/income": {
+      "get": {
+        "summary": "Pridobi seznam prihodkov",
+        "responses": {
+          "200": {
+            "description": "Seznam prihodkov je bil uspešno vrnjen.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "_id": {
+                    "type": "string",
+                    "example": "67697fe7d8500eef7f03d8f5"
+                  },
+                  "account": {
+                    "type": "string",
+                    "example": "676dc7127ccec2d60f3604bf"
+                  },
+                  "amount": {
+                    "type": "number",
+                    "example": 5000
+                  },
+                  "createdAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "example": "Mon, 23 Dec 2024 15:21:11 GMT"
+                  },
+                  "source": {
+                    "type": "string",
+                    "example": "plača"
+                  },
+                  "category": {
+                    "type": "string",
+                    "example": "mesečna plača",
+                    "nullable": true
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Napaka na strežniku.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Napaka na strežniku: [Opis napake]"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Dodaj nov prihodek",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "source": {
+                  "type": "string",
+                  "example": "plača"
+                },
+                "amount": {
+                  "type": "number",
+                  "example": 1000
+                },
+                "account": {
+                  "type": "string",
+                  "example": "676dc7127ccec2d60f3604bf"
+                }
+              },
+              "required": ["source", "amount", "account"]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Dohodek uspešno dodan.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Dohodek uspešno dodan!"
+                },
+                "id": {
+                  "type": "string",
+                  "example": "67697fe7d8500eef7f03d8f5"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Neveljavni podatki ali podatki niso poslani.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Podatki niso poslani."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Napaka na strežniku.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Napaka na strežniku: [Opis napake]"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/income/{id}": {
+      "get": {
+        "summary": "Pridobi posamezni prihodek",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Unikatni ID prihodka.",
+            "example": "67697fe7d8500eef7f03d8f5"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Podrobnosti o prihodku so bile uspešno vrnjene.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "example": "67697fe7d8500eef7f03d8f5"
+                },
+                "account": {
+                  "type": "string",
+                  "example": "676dc7127ccec2d60f3604bf"
+                },
+                "amount": {
+                  "type": "number",
+                  "example": 5000
+                },
+                "createdAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "example": "Mon, 23 Dec 2024 15:21:11 GMT"
+                },
+                "source": {
+                  "type": "string",
+                  "example": "plača"
+                },
+                "category": {
+                  "type": "string",
+                  "example": "mesečna plača",
+                  "nullable": true
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Prihodek ni bil najden.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Prihodek z ID 67697fe7d8500eef7f03d8f5 ni bil najden."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Napaka na strežniku.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Napaka na strežniku: [Opis napake]"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Posodobi prihodek",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID prihodka, ki ga želimo posodobiti.",
+            "example": "67697fe7d8500eef7f03d8f5"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "source": {
+                  "type": "string",
+                  "example": "plača"
+                },
+                "amount": {
+                  "type": "number",
+                  "example": 1000
+                },
+                "account": {
+                  "type": "string",
+                  "example": "676dc7127ccec2d60f3604bf"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Dohodek uspešno posodobljen.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Dohodek uspešno posodobljen!"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Neveljavni podatki.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Posodobitev ni uspela."
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Prihodek z danim ID ni bil najden.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Prihodek z ID 67697fe7d8500eef7f03d8f5 ni bil najden."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Napaka na strežniku.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Napaka na strežniku: [Opis napake]"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Izbriši prihodek",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID prihodka, ki ga želimo izbrisati.",
+            "example": "67697fe7d8500eef7f03d8f5"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Dohodek uspešno izbrisan.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Dohodek uspešno izbrisan!"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Prihodek ni bil najden.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Prihodek z ID 67697fe7d8500eef7f03d8f5 ni bil najden."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Napaka na strežniku.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Napaka na strežniku: [Opis napake]"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/income/{id}/category": {
+      "put": {
+        "summary": "Posodobi kategorijo prihodka",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID prihodka, katerega kategorijo želimo posodobiti.",
+            "example": "67697fe7d8500eef7f03d8f5"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "category": {
+                  "type": "string",
+                  "example": "Plača"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Kategorija prihodka uspešno posodobljena.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Kategorija uspešno posodobljena!"
+                },
+                "new_category": {
+                  "type": "string",
+                  "example": "Plača"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Neveljavni podatki, manjkajoče polje 'category'.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Manjka polje 'category'."
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Prihodek z danim ID ni bil najden.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Prihodek z ID 67697fe7d8500eef7f03d8f5 ni bil najden."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Napaka na strežniku.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Napaka na strežniku: [Opis napake]"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/income/account/{account}": {
+      "get": {
+        "summary": "Pridobi prihodke po računu",
+        "parameters": [
+          {
+            "name": "account",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Račun uporabnika za katerega želimo pridobiti prihodke.",
+            "example": "676dc7127ccec2d60f3604bf"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Seznam prihodkov uporabnika je bil uspešno vrnjen.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "_id": {
+                    "type": "string",
+                    "example": "67697fe7d8500eef7f03d8f5"
+                  },
+                  "account": {
+                    "type": "string",
+                    "example": "676dc7127ccec2d60f3604bf"
+                  },
+                  "amount": {
+                    "type": "number",
+                    "example": 5000
+                  },
+                  "createdAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "example": "Mon, 23 Dec 2024 15:21:11 GMT"
+                  },
+                  "source": {
+                    "type": "string",
+                    "example": "plača"
+                  },
+                  "category": {
+                    "type": "string",
+                    "example": "mesečna plača",
+                    "nullable": true
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Uporabnik nima prihodkov.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Uporabnik 676dc7127ccec2d60f3604bf nima dohodkov."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Napaka na strežniku.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Napaka na strežniku: [Opis napake]"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Izbriši prihodke po računu",
+        "parameters": [
+          {
+            "name": "account",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Račun uporabnika katerega prihodke želimo izbrisati.",
+            "example": "676dc7127ccec2d60f3604bf"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Vsi prihodki uporabnika so bili uspešno izbrisani.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Vsi dohodki uporabnika 676dc7127ccec2d60f3604bf so izbrisani."
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Uporabnik nima prihodkov za brisanje.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Uporabnik 676dc7127ccec2d60f3604bf nima dohodkov za brisanje."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Napaka na strežniku.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Napaka na strežniku: [Opis napake]"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/income/split": {
+      "post": {
+        "summary": "Razdeli dohodek na več manjših prihodkov",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "account": {
+                  "type": "string",
+                  "example": "676dc7127ccec2d60f3604bf"
+                },
+                "total_amount": {
+                  "type": "number",
+                  "example": 1000
+                },
+                "splits": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "amount": {
+                        "type": "number",
+                        "example": 400
+                      },
+                      "source": {
+                        "type": "string",
+                        "example": "Company A"
+                      }
+                    }
+                  },
+                  "example": [
+                    {
+                      "amount": 400,
+                      "source": "Company A"
+                    },
+                    {
+                      "amount": 300,
+                      "source": "Company B"
+                    },
+                    {
+                      "amount": 300,
+                      "source": "Company C"
+                    }
+                  ]
+                }
+              },
+              "required": ["account", "total_amount", "splits"]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Dohodek uspešno razdeljen in dodan.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Dohodek uspešno razdeljen in dodan!"
+                },
+                "total_amount": {
+                  "type": "number",
+                  "example": 1000
+                },
+                "details": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "_id": {
+                        "type": "string",
+                        "example": "676dd06c7ccec2d60f3604c0"
+                      },
+                      "account": {
+                        "type": "string",
+                        "example": "abc"
+                      },
+                      "amount": {
+                        "type": "number",
+                        "example": 400
+                      },
+                      "createdAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "Thu, 26 Dec 2024 21:53:48 GMT"
+                      },
+                      "id": {
+                        "type": "string",
+                        "example": "676dd06c7ccec2d60f3604c0"
+                      },
+                      "source": {
+                        "type": "string",
+                        "example": "Company A"
+                      }
+                    }
+                  },
+                  "example": [
+                    {
+                      "_id": "676dd06c7ccec2d60f3604c0",
+                      "account": "abc",
+                      "amount": 400,
+                      "createdAt": "Thu, 26 Dec 2024 21:53:48 GMT",
+                      "id": "676dd06c7ccec2d60f3604c0",
+                      "source": "Company A"
+                    },
+                    {
+                      "_id": "676dd06c7ccec2d60f3604c1",
+                      "account": "abc",
+                      "amount": 300,
+                      "createdAt": "Thu, 26 Dec 2024 21:53:48 GMT",
+                      "id": "676dd06c7ccec2d60f3604c1",
+                      "source": "Company B"
+                    },
+                    {
+                      "_id": "676dd06d7ccec2d60f3604c2",
+                      "account": "abc",
+                      "amount": 300,
+                      "createdAt": "Thu, 26 Dec 2024 21:53:49 GMT",
+                      "id": "676dd06d7ccec2d60f3604c2",
+                      "source": "Company C"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Neveljavni podatki ali napačna struktura razdelitve.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Vsota zneskov v razdelitvah ne ustreza skupnemu znesku."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Napaka na strežniku.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Napaka na strežniku: [Opis napake]"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

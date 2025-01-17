@@ -1,0 +1,770 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Savings API",
+    "version": "1.0"
+  },
+  "paths": {
+    "/savings": {
+      "get": {
+        "summary": "Pridobi seznam prihrankov",
+        "responses": {
+          "200": {
+            "description": "Seznam prihrankov je bil uspešno vrnjen.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "_id": {
+                    "type": "string",
+                    "example": "6769757f1175f0962d9113fc"
+                  },
+                  "account": {
+                    "type": "string",
+                    "example": "676dc7127ccec2d60f3604bf"
+                  },
+                  "amount": {
+                    "type": "number",
+                    "example": 30.99
+                  },
+                  "createdAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "example": "Mon, 23 Dec 2024 14:36:47 GMT"
+                  },
+                  "name": {
+                    "type": "string",
+                    "example": "Savings1"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Napaka na strežniku.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Napaka na strežniku: [Opis napake]"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Dodaj nov prihranek",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Saving1"
+                },
+                "amount": {
+                  "type": "number",
+                  "example": 200
+                },
+                "account": {
+                  "type": "string",
+                  "example": "676dc7127ccec2d60f3604bf"
+                }
+              },
+              "required": ["name", "amount", "account"]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Prihranek uspešno dodan.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Prihranek uspešno dodan!"
+                },
+                "id": {
+                  "type": "string",
+                  "example": "6769757f1175f0962d9113fc"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Neveljavni podatki ali podatki niso poslani.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Podatki niso poslani."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Napaka na strežniku.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Napaka na strežniku: [Opis napake]"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/savings/{id}": {
+      "get": {
+        "summary": "Pridobi posamezni prihranek",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Unikatni ID prihranka.",
+            "example": "6769757f1175f0962d9113fc"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Podrobnosti o prihranku so bile uspešno vrnjene.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "example": "6769757f1175f0962d9113fc"
+                },
+                "account": {
+                  "type": "string",
+                  "example": "676dc7127ccec2d60f3604bf"
+                },
+                "amount": {
+                  "type": "number",
+                  "example": 30.99
+                },
+                "createdAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "example": "Mon, 23 Dec 2024 14:36:47 GMT"
+                },
+                "name": {
+                  "type": "string",
+                  "example": "Savings1"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Prihranek ni bil najden.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Prihranek z ID 6769757f1175f0962d9113fc ni bil najden."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Napaka na strežniku.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Napaka na strežniku: [Opis napake]"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Posodobi prihranek",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID prihranka, ki ga želimo posodobiti.",
+            "example": "6769757f1175f0962d9113fc"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Saving1"
+                },
+                "amount": {
+                  "type": "number",
+                  "example": 200
+                },
+                "account": {
+                  "type": "string",
+                  "example": "676dc7127ccec2d60f3604bf"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Prihranek uspešno posodobljen.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Prihranek uspešno posodobljen!"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Neveljavni podatki.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Posodobitev ni uspela."
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Prihranek z danim ID ni bil najden.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Prihranek z ID 6769757f1175f0962d9113fc ni bil najden."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Napaka na strežniku.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Napaka na strežniku: [Opis napake]"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Izbriši prihranek",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID prihranka, ki ga želimo izbrisati.",
+            "example": "6769757f1175f0962d9113fc"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Prihranek uspešno izbrisan.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Prihranek uspešno izbrisan!"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Prihranek ni bil najden.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Prihranek z ID 6769757f1175f0962d9113fc ni bil najden."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Napaka na strežniku.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Napaka na strežniku: [Opis napake]"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/savings/account/{account}": {
+      "get": {
+        "summary": "Pridobi prihranke za določen račun",
+        "parameters": [
+          {
+            "name": "account",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID računa, za katerega želimo pridobiti prihranke.",
+            "example": "676dc7127ccec2d60f3604bf"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Seznam prihrankov za določen račun je bil uspešno vrnjen.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "_id": {
+                    "type": "string",
+                    "example": "6769757f1175f0962d9113fc"
+                  },
+                  "account": {
+                    "type": "string",
+                    "example": "676dc7127ccec2d60f3604bf"
+                  },
+                  "amount": {
+                    "type": "number",
+                    "example": 30.99
+                  },
+                  "createdAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "example": "Mon, 23 Dec 2024 14:36:47 GMT"
+                  },
+                  "name": {
+                    "type": "string",
+                    "example": "Savings1"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Uporabnik nima prihrankov.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Uporabnik 676dc7127ccec2d60f3604bf nima prihrankov."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Napaka na strežniku.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Napaka na strežniku: [Opis napake]"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Izbriši vse prihranke za določen račun",
+        "parameters": [
+          {
+            "name": "account",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID računa, za katerega želimo izbrisati vse prihranke.",
+            "example": "676dc7127ccec2d60f3604bf"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Vsi prihranki za določen račun so bili uspešno izbrisani.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Vsi prihranki uporabnika 676dc7127ccec2d60f3604bf so izbrisani."
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Uporabnik nima prihrankov za brisanje.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Uporabnik 676dc7127ccec2d60f3604bf nima prihrankov za brisanje."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Napaka na strežniku.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Napaka na strežniku: [Opis napake]"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/savings/transfer": {
+      "post": {
+        "summary": "Prenos zneska iz dohodkov v prihranke",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "account": {
+                  "type": "string",
+                  "example": "676dc7127ccec2d60f3604bf"
+                },
+                "name": {
+                  "type": "string",
+                  "example": "Darilo"
+                },
+                "amount": {
+                  "type": "number",
+                  "example": 10
+                },
+                "income_id": {
+                  "type": "string",
+                  "example": "676c5bc529c993544a68a446"
+                }
+              },
+              "required": ["account", "amount", "income_id"]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Prenos uspešno izveden.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Znesek uspešno prenesen v prihranke."
+                },
+                "transferred_amount": {
+                  "type": "number",
+                  "example": 10
+                },
+                "saving_details": {
+                  "$ref": "#/definitions/Saving"
+                },
+                "updated_income": {
+                  "$ref": "#/definitions/Income"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Neveljavni podatki ali premalo sredstev.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Ni dovolj sredstev v tem prihodku za prenos."
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Dohodek ali račun ni najden.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Dohodek z danim ID-jem ni najden."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Napaka na strežniku.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Napaka pri dodajanju prihranka."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/savings/merge": {
+      "put": {
+        "summary": "Združitev več prihrankov v enega",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "savings_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "example": [
+                    "676978be3868747684ca8170",
+                    "6769961d5c28c658db38e6e7"
+                  ]
+                },
+                "name": {
+                  "type": "string",
+                  "example": "Merged (Savings2, Savings3)"
+                }
+              },
+              "required": ["savings_ids"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Združitev uspešno izvedena.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Prihranki uspešno združeni!"
+                },
+                "new_saving": {
+                  "$ref": "#/definitions/Saving"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Neveljavni podatki za združitev.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Za združitev morate navesti vsaj dva prihranka."
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Eden ali več prihrankov ni najden.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Eden ali več prihrankov z danimi ID-ji ne obstaja."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Napaka na strežniku.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Napaka na strežniku: [Opis napake]"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/savings/summary/{account}": {
+      "get": {
+        "summary": "Pridobi povzetek prihrankov in dohodkov za določeni račun",
+        "parameters": [
+          {
+            "name": "account",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID računa, za katerega se pridobi povzetek prihrankov in dohodkov",
+            "example": "676dd06c7ccec2d60f3604c1"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Uspešno pridobljen povzetek prihrankov in dohodkov",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "account": {
+                  "type": "string",
+                  "example": "676dd06d7ccec2d60f3604c2"
+                },
+                "total_savings": {
+                  "type": "number",
+                  "example": 30.99
+                },
+                "total_income": {
+                  "type": "number",
+                  "example": 3000
+                },
+                "savings_details": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/Saving"
+                  }
+                },
+                "income_details": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/Income"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Račun nima prihrankov ali dohodkov",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Uporabnik abc nima prihrankov ali dohodkov."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Napaka na strežniku",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Napaka na strežniku: [Opis napake]"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Saving": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string",
+          "example": "6769757f1175f0962d9113fc"
+        },
+        "account": {
+          "type": "string",
+          "example": "abc"
+        },
+        "amount": {
+          "type": "number",
+          "example": 30.99
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "example": "Mon, 23 Dec 2024 14:36:47 GMT"
+        },
+        "name": {
+          "type": "string",
+          "example": "Savings1"
+        }
+      }
+    },
+    "Income": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string",
+          "example": "676c45a21bca57760188746e"
+        },
+        "account": {
+          "type": "string",
+          "example": "676dd06d7ccec2d60f3604c2"
+        },
+        "amount": {
+          "type": "number",
+          "example": 400
+        },
+        "category": {
+          "type": "string",
+          "example": "Uncategorized"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "example": "Wed, 25 Dec 2024 17:49:22 GMT"
+        },
+        "source": {
+          "type": "string",
+          "example": "Company A"
+        }
+      }
+    }
+  }
+}
