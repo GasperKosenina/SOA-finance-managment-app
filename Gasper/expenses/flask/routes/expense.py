@@ -28,8 +28,14 @@ def create_expense():
         "amount": data["amount"],
     }
 
+    headers = {
+        "Authorization": request.headers.get("Authorization"),
+    }
+
     response = requests.put(
-        f"{account_service_url}/user/remove-money", json=remove_user_balance
+        f"{account_service_url}/user/remove-money",
+        json=remove_user_balance,
+        headers=headers,
     )
 
     if response.status_code != 200:
